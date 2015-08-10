@@ -29,11 +29,12 @@
 /**
  * RCSwitch constructors for switch types A, B, C, D.
  */
-void *rcs_init_a(int transmitter_pin, char *s_group, char *s_device);
-void *rcs_init_b(int transmitter_pin, int n_address, int n_channel);
-void *rcs_init_c(int transmitter_pin, char c_family, int n_group, int n_device);
-void *rcs_init_d(int transmitter_pin, char c_group, int n_device);
+void *rcs_init_a(char *s_group, char *s_device);
+void *rcs_init_b(int n_address, int n_channel);
+void *rcs_init_c(char c_family, int n_group, int n_device);
+void *rcs_init_d(char c_group, int n_device);
 
+void rcs_enable_transmit(void *_s, int transmitter_pin);
 
 /**
  * RCSwitch setter methods.

@@ -3,7 +3,9 @@
 
 int main() {
     
-    void *s = rcs_init_b(0, 1, 2);
+    void *s = rcs_init_b(1, 2);
+    
+    rcs_enable_transmit(s, 0);
     
     int i;
     for(i = 0; i < 4; i++) {

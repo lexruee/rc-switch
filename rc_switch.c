@@ -97,6 +97,7 @@ void _rcs_tx_destroy(void *_tx);
 void _rcs_tx_set_pulse_length(void *_tx, int pulse_length);
 void _rcs_tx_set_repeat_transmit(void *_tx, int repeat_transmit);
 void _rcs_tx_set_protocol(void *_tx, int protocol);
+void _rcs_tx_set_pin(void *_tx, int pin);
 void _rcs_tx_sendTriState(void *_tx, char* sCodeWord);
 void _rcs_tx_sendSync(void *_tx);
 void _rcs_tx_send0(void *_tx);
@@ -140,14 +141,13 @@ void _rcs_init_wiring_pi() {
 /**
  * Constructor for switch type A.
  * 
- * @param int transmitter_pin
  * @param char *s_group
  * @param char *s_device
  * @return void*
  */
-void *rcs_init_a(int transmitter_pin, char *s_group, char *s_device) {
+void *rcs_init_a(char *s_group, char *s_device) {
     _RCSwitch *s = malloc(sizeof(_RCSwitch));
-    void *tx = _rcs_tx_init(transmitter_pin);
+    void *tx = _rcs_tx_init(-1);
     _rcs_tx_set_pulse_length(tx, 350);
     _rcs_tx_set_repeat_transmit(tx, 10);
     _rcs_tx_set_protocol(tx, 1);
@@ -163,14 +163,13 @@ void *rcs_init_a(int transmitter_pin, char *s_group, char *s_device) {
 /**
  * Constructor for switch type B.
  * 
- * @param int transmitter_pin
  * @param int n_address
  * @param int n_channel
  * @return void*
  */
-void *rcs_init_b(int transmitter_pin, int n_address, int n_channel) {
+void *rcs_init_b(int n_address, int n_channel) {
     _RCSwitch *s = malloc(sizeof(_RCSwitch));
-    void *tx = _rcs_tx_init(transmitter_pin);
+    void *tx = _rcs_tx_init(-1);
     _rcs_tx_set_pulse_length(tx, 350);
     _rcs_tx_set_repeat_transmit(tx, 10);
     _rcs_tx_set_protocol(tx, 1);
@@ -186,15 +185,14 @@ void *rcs_init_b(int transmitter_pin, int n_address, int n_channel) {
 /**
  * Constructor for switch type C.
  * 
- * @param int transmitter_pin
  * @param char c_family
  * @param int n_group
  * @param int n_device
  * @return void*
  */
-void *rcs_init_c(int transmitter_pin, char c_family, int n_group, int n_device) {
+void *rcs_init_c(char c_family, int n_group, int n_device) {
     _RCSwitch *s = malloc(sizeof(_RCSwitch));
-    void *tx = _rcs_tx_init(transmitter_pin);
+    void *tx = _rcs_tx_init(-1);
     _rcs_tx_set_pulse_length(tx, 350);
     _rcs_tx_set_repeat_transmit(tx, 10);
     _rcs_tx_set_protocol(tx, 1);
@@ -211,14 +209,13 @@ void *rcs_init_c(int transmitter_pin, char c_family, int n_group, int n_device) 
 /**
  * Constructor for switch type D.
  * 
- * @param int transmitter_pin
  * @param char c_group
  * @param int n_device
  * @return void*
  */
-void *rcs_init_d(int transmitter_pin, char c_group, int n_device) {
+void *rcs_init_d(char c_group, int n_device) {
     _RCSwitch *s = malloc(sizeof(_RCSwitch));
-    void *tx = _rcs_tx_init(transmitter_pin);
+    void *tx = _rcs_tx_init(-1);
     _rcs_tx_set_pulse_length(tx, 350);
     _rcs_tx_set_repeat_transmit(tx, 10);
     _rcs_tx_set_protocol(tx, 1);
@@ -243,6 +240,19 @@ void rcs_destroy(void *_s) {
     s->tx = NULL;
     free(s);
     s = NULL;
+}
+
+
+/**
+ * Enables transmission on pin transmitter_pin.
+ * 
+ * @param void *_s
+ * @param int transmitter_pin
+ */ 
+void rcs_enable_transmit(void *_s, int transmitter_pin) {
+    _RCSwitch *s = _s;
+    _rcs_tx_set_pin(s->tx, transmitter_pin);
+    
 }
 
 
@@ -345,6 +355,16 @@ void _rcs_tx_destroy(void *_tx) {
  * _Tx setter methods.
  */
 
+
+/*
+ * 
+ * 
+ */
+void _rcs_tx_set_pin(void *_tx, int pin) {
+    _Tx *tx = _tx;
+    tx->pin = pin;
+} 
+ 
 
 /*
  * 
