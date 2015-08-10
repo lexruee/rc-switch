@@ -664,8 +664,8 @@ char* _rcs_get_codewordA(_Params params, int bStatus) {
  */
 char* _rcs_get_codewordC(_Params params, int bStatus) {
     char sFamily = params.c_family;
-    int nGroup = params.c_group;
-    int nDevice = params.c_device;
+    int nGroup = params.n_group;
+    int nDevice = params.n_device;
     
     static char sReturn[13];
     int nReturnPos = 0;
