@@ -803,13 +803,14 @@ char *_rcs_dec2binWzerofill(unsigned long dec, unsigned int bit_length) {
 
 char *_rcs_dec2binWcharfill(unsigned long dec, unsigned int bit_length, char fill) {
   static char bin[64];
-  unsigned int i, j = 0;
+  unsigned int i = 0;
 
   while(dec > 0) {
     bin[32+i++] = ((dec & 1) > 0) ? '1' : fill;
     dec = dec >> 1;
   }
   
+  unsigned int j;
   for(j = 0; j < bit_length; j++) {
     if(j >= bit_length - i) {
       bin[j] = bin[ 31 + i - (j - (bit_length - i)) ];
