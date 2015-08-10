@@ -23,6 +23,8 @@ test_switch_a.o: test/test_switch_a.c rc_switch.o
 test_switch_b.o: test/test_switch_b.c rc_switch.o
 	$(CC) test/test_switch_b.c -o test/test_switch_b.o rc_switch.o $(LDFLAGS)
 
+test_switch_c.o: test/test_switch_c.c rc_switch.o
+	$(CC) test/test_switch_c.c -o test/test_switch_c.o rc_switch.o $(LDFLAGS)
 
 
 .PHONY: clean
