@@ -104,7 +104,7 @@ void _rcs_init_wiring_pi() {
 }
 
 
-void *rcs_switch_init_a(int transmitter_pin, char *s_group, char *s_device) {
+void *rcs_init_a(int transmitter_pin, char *s_group, char *s_device) {
     _RCSwitch *s = malloc(sizeof(_RCSwitch));
     void *tx = _rcs_tx_init(transmitter_pin);
     _rcs_tx_set_pulse_length(tx, 650);
@@ -119,7 +119,7 @@ void *rcs_switch_init_a(int transmitter_pin, char *s_group, char *s_device) {
 }
 
 
-void *rcs_switch_init_b(int transmitter_pin, int n_address, int n_channel) {
+void *rcs_init_b(int transmitter_pin, int n_address, int n_channel) {
     _RCSwitch *s = malloc(sizeof(_RCSwitch));
     void *tx = _rcs_tx_init(transmitter_pin);
     _rcs_tx_set_pulse_length(tx, 350);
@@ -134,7 +134,7 @@ void *rcs_switch_init_b(int transmitter_pin, int n_address, int n_channel) {
 }
 
 
-void *rcs_switch_init_c(int transmitter_pin, char c_family, int n_group, int n_device) {
+void *rcs_init_c(int transmitter_pin, char c_family, int n_group, int n_device) {
     _RCSwitch *s = malloc(sizeof(_RCSwitch));
     void *tx = _rcs_tx_init(transmitter_pin);
     _rcs_tx_set_pulse_length(tx, 100);
@@ -154,7 +154,7 @@ void *rcs_switch_init_c(int transmitter_pin, char c_family, int n_group, int n_d
  * 
  * 
  */
-void rcs_switch_destroy(void *_s) {
+void rcs_destroy(void *_s) {
     _RCSwitch *s = _s;
     _rcs_tx_destroy(s->tx);
     s->tx = NULL;
