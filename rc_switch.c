@@ -663,7 +663,7 @@ char* _rcs_get_codewordA(_Params params, int bStatus) {
  * Like getCodeWord (Type C = Intertechno)
  */
 char* _rcs_get_codewordC(_Params params, int bStatus) {
-    char sFamily = params.c_family;
+    int sFamily = params.c_family;
     int nGroup = params.n_group;
     int nDevice = params.n_device;
     
