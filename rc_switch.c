@@ -104,6 +104,14 @@ void _rcs_init_wiring_pi() {
 }
 
 
+/**
+ * Constructor for switch type A.
+ * 
+ * @param transmitter_pin
+ * @param char *s_group
+ * @param char *s_device
+ * @return void*
+ */
 void *rcs_init_a(int transmitter_pin, char *s_group, char *s_device) {
     _RCSwitch *s = malloc(sizeof(_RCSwitch));
     void *tx = _rcs_tx_init(transmitter_pin);
@@ -119,6 +127,14 @@ void *rcs_init_a(int transmitter_pin, char *s_group, char *s_device) {
 }
 
 
+/**
+ * Constructor for switch type B.
+ * 
+ * @param transmitter_pin
+ * @param int n_address
+ * @param int n_channel
+ * @return void*
+ */
 void *rcs_init_b(int transmitter_pin, int n_address, int n_channel) {
     _RCSwitch *s = malloc(sizeof(_RCSwitch));
     void *tx = _rcs_tx_init(transmitter_pin);
@@ -134,6 +150,15 @@ void *rcs_init_b(int transmitter_pin, int n_address, int n_channel) {
 }
 
 
+/**
+ * Constructor for switch type C.
+ * 
+ * @param transmitter_pin
+ * @param char c_family
+ * @param int n_group
+ * @param int n_device
+ * @return void*
+ */
 void *rcs_init_c(int transmitter_pin, char c_family, int n_group, int n_device) {
     _RCSwitch *s = malloc(sizeof(_RCSwitch));
     void *tx = _rcs_tx_init(transmitter_pin);
@@ -151,7 +176,9 @@ void *rcs_init_c(int transmitter_pin, char c_family, int n_group, int n_device) 
 
 
 /**
+ * Deconstructor for all switch types.
  * 
+ * @param void *_s
  * 
  */
 void rcs_destroy(void *_s) {
@@ -164,7 +191,9 @@ void rcs_destroy(void *_s) {
 
 
 /**
+ * Turns the switch on.
  * 
+ * @param void *_s
  * 
  */
 void rcs_switch_on(void *_s) {
@@ -175,7 +204,9 @@ void rcs_switch_on(void *_s) {
 
 
 /**
+ * Turns the switch off.
  * 
+ * @param void *_s
  * 
  */
 void rcs_switch_off(void *_s) {
@@ -185,8 +216,7 @@ void rcs_switch_off(void *_s) {
 }
 
 
-
-/**
+/*
  * 
  * 
  */
@@ -203,7 +233,7 @@ void *_rcs_tx_init(int pin) {
 }
 
 
-/**
+/*
  * 
  * 
  */
@@ -212,7 +242,7 @@ void _rcs_tx_destroy(void *_tx) {
 }
 
 
-/**
+/*
  * 
  * 
  */
@@ -222,7 +252,7 @@ void _rcs_tx_set_pulse_length(void *_tx, int pulse_length) {
 }
 
 
-/**
+/*
  * 
  * 
  */
@@ -232,7 +262,7 @@ void _rcs_tx_set_repeat_transmit(void *_tx, int repeat_transmit) {
 }
 
 
-/**
+/*
  * 
  * 
  */
@@ -242,7 +272,7 @@ void _rcs_tx_set_protocol(void *_tx, int protocol) {
 }
 
 
-/**
+/*
  * 
  * 
  */
@@ -252,7 +282,7 @@ void _rcs_tx_enable_transmit(void *_tx) {
 }
 
 
-/**
+/*
  * 
  * 
  */
@@ -279,7 +309,7 @@ void _rcs_tx_transmit(_Tx *tx, int high_pulses, int low_pulses) {
 }
 
 
-/**
+/*
  * Sends a "0" Bit
  *                       _    
  * Waveform Protocol 1: | |___
@@ -299,7 +329,7 @@ void _rcs_tx_send0(void *_tx) {
 }
 
 
-/**
+/*
  * Sends a "1" Bit
  *                       ___  
  * Waveform Protocol 1: |   |_
@@ -319,7 +349,7 @@ void _rcs_tx_send1(void *_tx) {
 }
 
 
-/**
+/*
  * Sends a Tri-State "0" Bit
  *            _     _
  * Waveform: | |___| |___
@@ -331,7 +361,7 @@ void _rcs_tx_sendT0(void *_tx) {
 }
 
 
-/**
+/*
  * Sends a Tri-State "1" Bit
  *            ___   ___
  * Waveform: |   |_|   |_
@@ -343,7 +373,7 @@ void _rcs_tx_sendT1(void *_tx) {
 }
 
 
-/**
+/*
  * Sends a Tri-State "F" Bit
  *            _     ___
  * Waveform: | |___|   |_
@@ -355,7 +385,7 @@ void _rcs_tx_sendTF(void *_tx) {
 }
 
 
-/**
+/*
  * Sends a "Sync" Bit
  *                       _
  * Waveform Protocol 1: | |_______________________________
@@ -374,7 +404,7 @@ void _rcs_tx_sendSync(void *_tx) {
 }
 
 
-/**
+/*
  * @param sCodeWord   /^[10FS]*$/  -> see getCodeWord
  */
 void _rcs_tx_sendTriState(void *_tx, char* sCodeWord) {
@@ -454,7 +484,7 @@ char* _rcs_get_codewordB(_Params params, int bStatus) {
 }
 
 
-/**
+/*
  * Returns a char[13], representing the Code Word to be send.
  *
  * getCodeWordA(char*, char*)
