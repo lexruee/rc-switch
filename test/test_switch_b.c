@@ -3,7 +3,7 @@
 
 int main() {
     
-    void *s = rcs_switch_init_b(0, 1, 2);
+    void *s = rcs_init_b(0, 1, 2);
     
     int i;
     for(i = 0; i < 4; i++) {
@@ -15,7 +15,7 @@ int main() {
         sleep(2);
     }
     
-    rcs_switch_destroy(s);
+    rcs_destroy(s);
     
     return 0;
 }
