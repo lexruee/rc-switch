@@ -140,7 +140,7 @@ void _rcs_init_wiring_pi() {
 /**
  * Constructor for switch type A.
  * 
- * @param transmitter_pin
+ * @param int transmitter_pin
  * @param char *s_group
  * @param char *s_device
  * @return void*
@@ -163,7 +163,7 @@ void *rcs_init_a(int transmitter_pin, char *s_group, char *s_device) {
 /**
  * Constructor for switch type B.
  * 
- * @param transmitter_pin
+ * @param int transmitter_pin
  * @param int n_address
  * @param int n_channel
  * @return void*
@@ -186,7 +186,7 @@ void *rcs_init_b(int transmitter_pin, int n_address, int n_channel) {
 /**
  * Constructor for switch type C.
  * 
- * @param transmitter_pin
+ * @param int transmitter_pin
  * @param char c_family
  * @param int n_group
  * @param int n_device
@@ -211,7 +211,7 @@ void *rcs_init_c(int transmitter_pin, char c_family, int n_group, int n_device) 
 /**
  * Constructor for switch type D.
  * 
- * @param transmitter_pin
+ * @param int transmitter_pin
  * @param char c_group
  * @param int n_device
  * @return void*
