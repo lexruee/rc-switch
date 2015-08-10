@@ -209,6 +209,29 @@ void *rcs_init_c(int transmitter_pin, char c_family, int n_group, int n_device) 
 
 
 /**
+ * Constructor for switch type D.
+ * 
+ * @param transmitter_pin
+ * @param char c_group
+ * @param int n_device
+ * @return void*
+ */
+void *rcs_init_d(int transmitter_pin, char c_group, int n_device) {
+    _RCSwitch *s = malloc(sizeof(_RCSwitch));
+    void *tx = _rcs_tx_init(transmitter_pin);
+    _rcs_tx_set_pulse_length(tx, 350);
+    _rcs_tx_set_repeat_transmit(tx, 10);
+    _rcs_tx_set_protocol(tx, 1);
+    s->tx = tx;
+    s->type = 'D';
+    s->get_codeword = &_rcs_get_codewordC;
+    s->params.c_group = c_group;
+    s->params.n_device = n_device;
+    return s;
+}
+
+
+/**
  * Deconstructor for all switch types.
  * 
  * @param void *_s
