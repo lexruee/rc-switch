@@ -221,7 +221,7 @@ void *rcs_init_d(char c_group, int n_device) {
     _rcs_tx_set_protocol(tx, 1);
     s->tx = tx;
     s->type = 'D';
-    s->get_codeword = &_rcs_get_codewordC;
+    s->get_codeword = &_rcs_get_codewordD;
     s->params.c_group = c_group;
     s->params.n_device = n_device;
     return s;
