@@ -15,6 +15,8 @@ int main() {
         sleep(3);
     }
     
+    rcs_switch_destroy(s);
+    
     return 0;
 }
 
