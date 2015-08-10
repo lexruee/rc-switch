@@ -670,7 +670,7 @@ char* _rcs_get_codewordC(_Params params, int bStatus) {
     static char sReturn[13];
     int nReturnPos = 0;
   
-    if((char)sFamily < 97 || (char)sFamily > 112 || nGroup < 1 || nGroup > 4 || nDevice < 1 || nDevice > 4) {
+    if(sFamily < 97 || sFamily > 112 || nGroup < 1 || nGroup > 4 || nDevice < 1 || nDevice > 4) {
         return '\0';
     }
   
