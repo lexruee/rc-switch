@@ -682,19 +682,22 @@ char* _rcs_get_codewordC(_Params params, int bStatus) {
     };
     
     int i;
-    
-    for(i = 0; i<4; i++) {
+    for(i = 0; i < 4; i++) {
         sReturn[nReturnPos++] = familycode[ (int)sFamily - 97 ][i];
     }
     
-    for(i = 0; i<4; i++) {
+    for(i = 0; i < 4; i++) {
         sReturn[nReturnPos++] = (sDeviceGroupCode[3-i] == '1' ? 'F' : '0');
     }
     
     sReturn[nReturnPos++] = '0';
     sReturn[nReturnPos++] = 'F';
     sReturn[nReturnPos++] = 'F';
-    sReturn[nReturnPos++] = bStatus ? 'F' : '0';
+    if(bStatus) {
+        sReturn[nReturnPos++] = 'F';
+    } else {
+        sReturn[nReturnPos++] = '0';
+    }
         
     sReturn[nReturnPos] = '\0';
     return sReturn;
