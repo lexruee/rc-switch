@@ -19,7 +19,7 @@ typedef struct {
     unsigned long received_value;
     int tolerance;
     int pin;
-} Rx;
+} _Rx;
 
 
 typedef struct {
@@ -27,7 +27,7 @@ typedef struct {
     int pulse_length;
     int repeat_transmit;
     char protocol;
-} Tx;
+} _Tx;
 
 
 typedef struct {
@@ -41,49 +41,62 @@ typedef struct {
     int n_address;
     int n_channel;
     int b_status;
-} Params;
+} _Params;
 
 
 typedef struct {
     void *tx;
     void *rx;
     char type;
-    char *(*get_codeword)(Params params, int status);
-    Params params;
-} RCSwitch;
+    char *(*get_codeword)(_Params params, int status);
+    _Params params;
+} _RCSwitch;
 
 
+/*
+ * Private variables.
+ */
 
 static int RCS_WIRING_PI_INIT = FALSE;
 
-void *rcs_tx_init(int pin);
-void rcs_tx_destroy(void *_tx);
-void rcs_tx_set_pulse_length(void *_tx, int pulse_length);
-void rcs_tx_set_repeat_transmit(void *_tx, int repeat_transmit);
-void rcs_tx_set_protocol(void *_tx, int protocol);
-void rcs_tx_sendTriState(void *_tx, char* sCodeWord);
-void rcs_tx_sendSync(void *_tx);
-void rcs_tx_send0(void *_tx);
-void rcs_tx_send1(void *_tx);
-void rcs_tx_sendT1(void *_tx);
-void rcs_tx_sendT0(void *_tx);
-void rcs_tx_sendTF(void *_tx);
+
+/*
+ * Private function prototypes.
+ */
+
+void *_rcs_tx_init(int pin);
+void _rcs_tx_destroy(void *_tx);
+void _rcs_tx_set_pulse_length(void *_tx, int pulse_length);
+void _rcs_tx_set_repeat_transmit(void *_tx, int repeat_transmit);
+void _rcs_tx_set_protocol(void *_tx, int protocol);
+void _rcs_tx_sendTriState(void *_tx, char* sCodeWord);
+void _rcs_tx_sendSync(void *_tx);
+void _rcs_tx_send0(void *_tx);
+void _rcs_tx_send1(void *_tx);
+void _rcs_tx_sendT1(void *_tx);
+void _rcs_tx_sendT0(void *_tx);
+void _rcs_tx_sendTF(void *_tx);
 
 
-char *_rcs_get_codewordA(Params params, int status);
-char *_rcs_get_codewordB(Params params, int status);
-char *_rcs_get_codewordC(Params params, int status);
-char *_rcs_get_codewordD(Params params, int status);
+char *_rcs_get_codewordA(_Params params, int status);
+char *_rcs_get_codewordB(_Params params, int status);
+char *_rcs_get_codewordC(_Params params, int status);
+char *_rcs_get_codewordD(_Params params, int status);
 
 
 char *_rcs_dec2binWzerofill(unsigned long dec, unsigned int bit_length);
 char *_rcs_dec2binWcharfill(unsigned long dec, unsigned int bit_length, char fill);
 
-void rcs_init_wiring_pi();
+void _rcs_init_wiring_pi();
 
 
 
-void rcs_init_wiring_pi() {
+/*
+ * Private functions.
+ */
+
+
+void _rcs_init_wiring_pi() {
     if(RCS_WIRING_PI_INIT == FALSE) {
         wiringPiSetup();
         RCS_WIRING_PI_INIT = TRUE;
@@ -92,11 +105,11 @@ void rcs_init_wiring_pi() {
 
 
 void *rcs_switch_init_a(int transmitter_pin, char *s_group, char *s_device) {
-    RCSwitch *s = (RCSwitch*) malloc(sizeof(RCSwitch));
-    void *tx = rcs_tx_init(transmitter_pin);
-    rcs_tx_set_pulse_length(tx, 650);
-    rcs_tx_set_repeat_transmit(tx, 10);
-    rcs_tx_set_protocol(tx, 2);
+    _RCSwitch *s = malloc(sizeof(_RCSwitch));
+    void *tx = _rcs_tx_init(transmitter_pin);
+    _rcs_tx_set_pulse_length(tx, 650);
+    _rcs_tx_set_repeat_transmit(tx, 10);
+    _rcs_tx_set_protocol(tx, 2);
     s->tx = tx;
     s->type = 'A';
     s->get_codeword = &_rcs_get_codewordA;
@@ -107,11 +120,11 @@ void *rcs_switch_init_a(int transmitter_pin, char *s_group, char *s_device) {
 
 
 void *rcs_switch_init_b(int transmitter_pin, int n_address, int n_channel) {
-    RCSwitch *s = (RCSwitch*) malloc(sizeof(RCSwitch));
-    void *tx = rcs_tx_init(transmitter_pin);
-    rcs_tx_set_pulse_length(tx, 350);
-    rcs_tx_set_repeat_transmit(tx, 10);
-    rcs_tx_set_protocol(tx, 1);
+    _RCSwitch *s = malloc(sizeof(_RCSwitch));
+    void *tx = _rcs_tx_init(transmitter_pin);
+    _rcs_tx_set_pulse_length(tx, 350);
+    _rcs_tx_set_repeat_transmit(tx, 10);
+    _rcs_tx_set_protocol(tx, 1);
     s->tx = tx;
     s->type = 'B';
     s->get_codeword = &_rcs_get_codewordB;
@@ -122,11 +135,11 @@ void *rcs_switch_init_b(int transmitter_pin, int n_address, int n_channel) {
 
 
 void *rcs_switch_init_c(int transmitter_pin, char c_family, int n_group, int n_device) {
-    RCSwitch *s = (RCSwitch*) malloc(sizeof(RCSwitch));
-    void *tx = rcs_tx_init(transmitter_pin);
-    rcs_tx_set_pulse_length(tx, 100);
-    rcs_tx_set_repeat_transmit(tx, 10);
-    rcs_tx_set_protocol(tx, 1);
+    _RCSwitch *s = malloc(sizeof(_RCSwitch));
+    void *tx = _rcs_tx_init(transmitter_pin);
+    _rcs_tx_set_pulse_length(tx, 100);
+    _rcs_tx_set_repeat_transmit(tx, 10);
+    _rcs_tx_set_protocol(tx, 1);
     s->tx = tx;
     s->type = 'C';
     s->get_codeword = &_rcs_get_codewordC;
@@ -142,8 +155,8 @@ void *rcs_switch_init_c(int transmitter_pin, char c_family, int n_group, int n_d
  * 
  */
 void rcs_switch_destroy(void *_s) {
-    RCSwitch *s = (RCSwitch*) _s;
-    rcs_tx_destroy(s->tx);
+    _RCSwitch *s = _s;
+    _rcs_tx_destroy(s->tx);
     s->tx = NULL;
     free(s);
     s = NULL;
@@ -155,9 +168,9 @@ void rcs_switch_destroy(void *_s) {
  * 
  */
 void rcs_switch_on(void *_s) {
-    RCSwitch *s = (RCSwitch*) _s;
-    char *(*get_codeword)(Params params, int status) = s->get_codeword;
-    rcs_tx_sendTriState(s->tx, get_codeword(s->params, TRUE));
+    _RCSwitch *s = _s;
+    char *(*get_codeword)(_Params params, int status) = s->get_codeword;
+    _rcs_tx_sendTriState(s->tx, get_codeword(s->params, TRUE));
 }
 
 
@@ -166,9 +179,9 @@ void rcs_switch_on(void *_s) {
  * 
  */
 void rcs_switch_off(void *_s) {
-    RCSwitch *s = (RCSwitch*) _s;
-    char *(*get_codeword)(Params params, int status) = s->get_codeword;
-    rcs_tx_sendTriState(s->tx, get_codeword(s->params, FALSE));
+    _RCSwitch *s = _s;
+    char *(*get_codeword)(_Params params, int status) = s->get_codeword;
+    _rcs_tx_sendTriState(s->tx, get_codeword(s->params, FALSE));
 }
 
 
@@ -177,9 +190,9 @@ void rcs_switch_off(void *_s) {
  * 
  * 
  */
-void *rcs_tx_init(int pin) {
-    rcs_init_wiring_pi();
-    Tx *tx = (Tx*) malloc(sizeof(Tx));
+void *_rcs_tx_init(int pin) {
+    _rcs_init_wiring_pi();
+    _Tx *tx = malloc(sizeof(_Tx));
     if(tx != NULL) {
         tx->pin = pin;
         tx->pulse_length = 350;
@@ -194,7 +207,7 @@ void *rcs_tx_init(int pin) {
  * 
  * 
  */
-void rcs_tx_destroy(void *_tx) {
+void _rcs_tx_destroy(void *_tx) {
     free(_tx);
 }
 
@@ -203,8 +216,8 @@ void rcs_tx_destroy(void *_tx) {
  * 
  * 
  */
-void rcs_tx_set_pulse_length(void *_tx, int pulse_length) {
-    Tx *tx = (Tx*) _tx;
+void _rcs_tx_set_pulse_length(void *_tx, int pulse_length) {
+    _Tx *tx = _tx;
     tx->pulse_length = pulse_length;
 }
 
@@ -213,8 +226,8 @@ void rcs_tx_set_pulse_length(void *_tx, int pulse_length) {
  * 
  * 
  */
-void rcs_tx_set_repeat_transmit(void *_tx, int repeat_transmit) {
-    Tx *tx = (Tx*) _tx;
+void _rcs_tx_set_repeat_transmit(void *_tx, int repeat_transmit) {
+    _Tx *tx = _tx;
     tx->repeat_transmit = repeat_transmit;
 }
 
@@ -223,8 +236,8 @@ void rcs_tx_set_repeat_transmit(void *_tx, int repeat_transmit) {
  * 
  * 
  */
-void rcs_tx_set_protocol(void *_tx, int protocol) {
-    Tx *tx = (Tx*) _tx;
+void _rcs_tx_set_protocol(void *_tx, int protocol) {
+    _Tx *tx = _tx;
     tx->protocol = protocol;
 }
 
@@ -233,8 +246,8 @@ void rcs_tx_set_protocol(void *_tx, int protocol) {
  * 
  * 
  */
-void rcs_tx_enable_transmit(void *_tx) {
-    Tx *tx = (Tx*) _tx;
+void _rcs_tx_enable_transmit(void *_tx) {
+    _Tx *tx = _tx;
     pinMode(tx->pin, OUTPUT);
 }
 
@@ -243,8 +256,8 @@ void rcs_tx_enable_transmit(void *_tx) {
  * 
  * 
  */
-void rcs_tx_disable_transmit(void *_tx) {
-    Tx *tx = (Tx*) _tx;
+void _rcs_tx_disable_transmit(void *_tx) {
+    _Tx *tx = _tx;
     tx->pin = -1;
 }
 
@@ -253,7 +266,7 @@ void rcs_tx_disable_transmit(void *_tx) {
  * 
  * 
  */
-void _rcs_tx_transmit(Tx *tx, int high_pulses, int low_pulses) {
+void _rcs_tx_transmit(_Tx *tx, int high_pulses, int low_pulses) {
     int pin = tx->pin;
     int pulse_length = tx->pulse_length;
     
@@ -273,8 +286,8 @@ void _rcs_tx_transmit(Tx *tx, int high_pulses, int low_pulses) {
  *                       _  
  * Waveform Protocol 2: | |__
  */
-void rcs_tx_send0(void *_tx) {
-    Tx *tx = (Tx*) _tx;
+void _rcs_tx_send0(void *_tx) {
+    _Tx *tx = _tx;
     
     if (tx->protocol == 1){
         _rcs_tx_transmit(tx, 1, 3);
@@ -293,8 +306,8 @@ void rcs_tx_send0(void *_tx) {
  *                       __  
  * Waveform Protocol 2: |  |_
  */
-void rcs_tx_send1(void *_tx) {
-    Tx *tx = (Tx*) _tx;
+void _rcs_tx_send1(void *_tx) {
+    _Tx *tx = _tx;
     
     if (tx->protocol == 1){
         _rcs_tx_transmit(tx, 3, 1);
@@ -311,8 +324,8 @@ void rcs_tx_send1(void *_tx) {
  *            _     _
  * Waveform: | |___| |___
  */
-void rcs_tx_sendT0(void *_tx) {
-    Tx *tx = (Tx*) _tx;
+void _rcs_tx_sendT0(void *_tx) {
+    _Tx *tx = _tx;
     _rcs_tx_transmit(tx, 1, 3);
     _rcs_tx_transmit(tx, 1, 3);
 }
@@ -323,8 +336,8 @@ void rcs_tx_sendT0(void *_tx) {
  *            ___   ___
  * Waveform: |   |_|   |_
  */
-void rcs_tx_sendT1(void *_tx) {
-    Tx *tx = (Tx*) _tx;
+void _rcs_tx_sendT1(void *_tx) {
+    _Tx *tx = _tx;
     _rcs_tx_transmit(tx, 3, 1);
     _rcs_tx_transmit(tx, 3, 1);
 }
@@ -335,8 +348,8 @@ void rcs_tx_sendT1(void *_tx) {
  *            _     ___
  * Waveform: | |___|   |_
  */
-void rcs_tx_sendTF(void *_tx) {
-    Tx *tx = (Tx*) _tx;
+void _rcs_tx_sendTF(void *_tx) {
+    _Tx *tx = _tx;
     _rcs_tx_transmit(tx, 1, 3);
     _rcs_tx_transmit(tx, 3, 1);
 }
@@ -349,8 +362,8 @@ void rcs_tx_sendTF(void *_tx) {
  *                       _
  * Waveform Protocol 2: | |__________
  */
-void rcs_tx_sendSync(void *_tx) {
-    Tx *tx = (Tx*) _tx;
+void _rcs_tx_sendSync(void *_tx) {
+    _Tx *tx = _tx;
     if (tx->protocol == 1){
         _rcs_tx_transmit(tx, 1, 31);
     } else if (tx->protocol == 2) {
@@ -364,26 +377,26 @@ void rcs_tx_sendSync(void *_tx) {
 /**
  * @param sCodeWord   /^[10FS]*$/  -> see getCodeWord
  */
-void rcs_tx_sendTriState(void *_tx, char* sCodeWord) {
-    Tx *tx = (Tx*) _tx;
+void _rcs_tx_sendTriState(void *_tx, char* sCodeWord) {
+    _Tx *tx = _tx;
     int nRepeat;
     for (nRepeat=0; nRepeat < tx->repeat_transmit; nRepeat++) {
         int i = 0;
         while (sCodeWord[i] != '\0') {
             switch(sCodeWord[i]) {
                 case '0':
-                rcs_tx_sendT0(_tx);
+                _rcs_tx_sendT0(_tx);
                 break;
                 case 'F':
-                rcs_tx_sendTF(_tx);
+                _rcs_tx_sendTF(_tx);
                 break;
                 case '1':
-                rcs_tx_sendT1(_tx);
+                _rcs_tx_sendT1(_tx);
                 break;
             }
         i++;
         }
-        rcs_tx_sendSync(_tx);    
+        _rcs_tx_sendSync(_tx);    
     }
 }
 
@@ -404,7 +417,7 @@ void rcs_tx_sendTriState(void *_tx, char* sCodeWord) {
  *
  * @return char[13]
  */
-char* _rcs_get_codewordB(Params params, int bStatus) {
+char* _rcs_get_codewordB(_Params params, int bStatus) {
     int nAddressCode = params.n_address;
     int nChannelCode = params.n_channel;
     
@@ -447,7 +460,7 @@ char* _rcs_get_codewordB(Params params, int bStatus) {
  * getCodeWordA(char*, char*)
  *
  */
-char* _rcs_get_codewordA(Params params, int bStatus) {
+char* _rcs_get_codewordA(_Params params, int bStatus) {
     char *sGroup = *params.s_group;
     char *sDevice = *params.s_device;
     
@@ -488,7 +501,7 @@ char* _rcs_get_codewordA(Params params, int bStatus) {
 /*
  * Like getCodeWord (Type C = Intertechno)
  */
-char* _rcs_get_codewordC(Params params, int bStatus) {
+char* _rcs_get_codewordC(_Params params, int bStatus) {
     char sFamily = params.c_family;
     int nGroup = params.c_group;
     int nDevice = params.c_device;
@@ -548,7 +561,7 @@ char* _rcs_get_codewordC(Params params, int bStatus) {
  * @return char[13]
  */
 
-char* _rcs_get_codewordD(Params params, int bStatus){
+char* _rcs_get_codewordD(_Params params, int bStatus){
     char sGroup = params.c_group;
     int nDevice = params.n_device;
     
@@ -616,13 +629,13 @@ char* _rcs_get_codewordD(Params params, int bStatus){
 }
 
 
-
 /*
   * Turns a decimal value to its binary representation
   */
 char *_rcs_dec2binWzerofill(unsigned long dec, unsigned int bit_length) {
     return _rcs_dec2binWcharfill(dec, bit_length, '0');
 }
+
 
 char *_rcs_dec2binWcharfill(unsigned long dec, unsigned int bit_length, char fill) {
   static char bin[64];

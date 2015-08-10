@@ -1,6 +1,6 @@
+
 /**
  * RCSwitch intreface for switch types A, B, C, D.
- * 
  */
 
 void *rcs_switch_init_a(int transmitter_pin, char *s_group, char *s_device);
