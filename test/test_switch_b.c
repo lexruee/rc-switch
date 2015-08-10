@@ -12,7 +12,7 @@ int main() {
         } else {
             rcs_switch_off(s);
         }
-        sleep(3);
+        sleep(2);
     }
     
     rcs_switch_destroy(s);
