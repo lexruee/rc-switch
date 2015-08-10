@@ -2,7 +2,7 @@
  * rc-switch-c is a pure C port of the rc-switch C++ library 
  * for the Raspberry Pi.
  *
- * Copyright (C) 2015  Alexander Rüedlinger <a.rueedlinger.gmail.com>
+ * Copyright (C) 2015  Alexander Rüedlinger <a.rueedlinger@gmail.com>
  * 
  * rc-switch-c is a derived work of the rc-switch project:
  *      
