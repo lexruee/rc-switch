@@ -60,9 +60,9 @@ typedef struct {
 
 typedef struct {
     char c_group;
-    char **s_group;
+    char *s_group;
     char c_device;
-    char **s_device;
+    char *s_device;
     char c_family;
     int n_group;
     int n_device;
@@ -154,8 +154,8 @@ void *rcs_init_a(char *s_group, char *s_device) {
     s->tx = tx;
     s->type = 'A';
     s->get_codeword = &_rcs_get_codewordA;
-    s->params.s_group = &s_group;
-    s->params.s_device = &s_device;
+    s->params.s_group = s_group;
+    s->params.s_device = s_device;
     return s;
 }
 
@@ -622,8 +622,8 @@ char* _rcs_get_codewordB(_Params params, int bStatus) {
  *
  */
 char* _rcs_get_codewordA(_Params params, int bStatus) {
-    char *sGroup = *params.s_group;
-    char *sDevice = *params.s_device;
+    char *sGroup = params.s_group;
+    char *sDevice = params.s_device;
     
     static char sDipSwitches[13];
     int i = 0;
