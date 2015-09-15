@@ -4,7 +4,7 @@
  *
  * Copyright (C) 2015  Alexander Rüedlinger <a.rueedlinger@gmail.com>
  * 
- * rc-switch-c is a derived work of the rc-switch project:
+ * rc-switch-c is a derivative work of the rc-switch project:
  *      
  *      https://github.com/sui77/rc-switch
  * 

@@ -1,13 +1,13 @@
 /**
- * rc-switch-c is a pure C port of the rc-switch C++ library 
+ * rc-switch-c is a pure C port of the rc-switch C++ library
  * for the Raspberry Pi.
  *
  * Copyright (C) 2015  Alexander Rüedlinger <a.rueedlinger@gmail.com>
- * 
- * rc-switch-c is a derived work of the rc-switch project:
- *      
+ *
+ * rc-switch-c is a derivative work of the rc-switch project:
+ *
  *      https://github.com/sui77/rc-switch
- * 
+ *
  *      RCSwitch - Arduino libary for remote control outlet switches
  *      Copyright (c) 2011 Suat Özgür.  All right reserved.
  *
@@ -25,7 +25,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
  */
- 
+
 #include "rc_switch.h"
 #include "wiringPi.h"
 #include <stdlib.h>
@@ -38,8 +38,8 @@
 /*
  * Private structures.
  */
- 
- 
+
+
 typedef struct {
     unsigned int protocol;
     unsigned int delay;
@@ -134,13 +134,13 @@ void _rcs_init_wiring_pi() {
 
 
 /*
- * Constructor methods. 
+ * Constructor methods.
  */
 
 
 /**
  * Constructor for switch type A.
- * 
+ *
  * @param char *s_group
  * @param char *s_device
  * @return void*
@@ -162,7 +162,7 @@ void *rcs_init_a(char *s_group, char *s_device) {
 
 /**
  * Constructor for switch type B.
- * 
+ *
  * @param int n_address
  * @param int n_channel
  * @return void*
@@ -184,7 +184,7 @@ void *rcs_init_b(int n_address, int n_channel) {
 
 /**
  * Constructor for switch type C.
- * 
+ *
  * @param char c_family
  * @param int n_group
  * @param int n_device
@@ -208,7 +208,7 @@ void *rcs_init_c(char c_family, int n_group, int n_device) {
 
 /**
  * Constructor for switch type D.
- * 
+ *
  * @param char c_group
  * @param int n_device
  * @return void*
@@ -230,9 +230,9 @@ void *rcs_init_d(char c_group, int n_device) {
 
 /**
  * Deconstructor for all switch types.
- * 
+ *
  * @param void *_s
- * 
+ *
  */
 void rcs_destroy(void *_s) {
     _RCSwitch *s = _s;
@@ -245,22 +245,22 @@ void rcs_destroy(void *_s) {
 
 /**
  * Enables transmission on pin transmitter_pin.
- * 
+ *
  * @param void *_s
  * @param int transmitter_pin
- */ 
+ */
 void rcs_enable_transmit(void *_s, int transmitter_pin) {
     _RCSwitch *s = _s;
     _rcs_tx_set_pin(s->tx, transmitter_pin);
-    
+
 }
 
 
 /**
  * Turns the switch on.
- * 
+ *
  * @param void *_s
- * 
+ *
  */
 void rcs_switch_on(void *_s) {
     _RCSwitch *s = _s;
@@ -271,9 +271,9 @@ void rcs_switch_on(void *_s) {
 
 /**
  * Turns the switch off.
- * 
+ *
  * @param void *_s
- * 
+ *
  */
 void rcs_switch_off(void *_s) {
     _RCSwitch *s = _s;
@@ -284,11 +284,11 @@ void rcs_switch_off(void *_s) {
 /*
  * _RCSwitch setter methods.
  */
- 
+
 
 /**
- * 
- * 
+ *
+ *
  */
 void rcs_set_pulse_length(void *_s, int pulse_length) {
     _RCSwitch *s = _s;
@@ -297,8 +297,8 @@ void rcs_set_pulse_length(void *_s, int pulse_length) {
 
 
 /**
- * 
- * 
+ *
+ *
  */
 void rcs_set_repeat_transmit(void *_s, int repeat_transmit) {
     _RCSwitch *s = _s;
@@ -307,8 +307,8 @@ void rcs_set_repeat_transmit(void *_s, int repeat_transmit) {
 
 
 /**
- * 
- * 
+ *
+ *
  */
 void rcs_set_protocol(void *_s, int protocol) {
     _RCSwitch *s = _s;
@@ -325,8 +325,8 @@ void rcs_set_protocol(void *_s, int protocol) {
 
 
 /*
- * 
- * 
+ *
+ *
  */
 void *_rcs_tx_init(int pin) {
     _rcs_init_wiring_pi();
@@ -342,8 +342,8 @@ void *_rcs_tx_init(int pin) {
 
 
 /*
- * 
- * 
+ *
+ *
  */
 void _rcs_tx_destroy(void *_tx) {
     free(_tx);
@@ -357,18 +357,18 @@ void _rcs_tx_destroy(void *_tx) {
 
 
 /*
- * 
- * 
+ *
+ *
  */
 void _rcs_tx_set_pin(void *_tx, int pin) {
     _Tx *tx = _tx;
     tx->pin = pin;
-} 
- 
+}
+
 
 /*
- * 
- * 
+ *
+ *
  */
 void _rcs_tx_set_pulse_length(void *_tx, int pulse_length) {
     _Tx *tx = _tx;
@@ -377,8 +377,8 @@ void _rcs_tx_set_pulse_length(void *_tx, int pulse_length) {
 
 
 /*
- * 
- * 
+ *
+ *
  */
 void _rcs_tx_set_repeat_transmit(void *_tx, int repeat_transmit) {
     _Tx *tx = _tx;
@@ -387,8 +387,8 @@ void _rcs_tx_set_repeat_transmit(void *_tx, int repeat_transmit) {
 
 
 /*
- * 
- * 
+ *
+ *
  */
 void _rcs_tx_set_protocol(void *_tx, int protocol) {
     _Tx *tx = _tx;
@@ -404,8 +404,8 @@ void _rcs_tx_set_protocol(void *_tx, int protocol) {
 
 
 /*
- * 
- * 
+ *
+ *
  */
 void _rcs_tx_enable_transmit(void *_tx) {
     _Tx *tx = _tx;
@@ -414,8 +414,8 @@ void _rcs_tx_enable_transmit(void *_tx) {
 
 
 /*
- * 
- * 
+ *
+ *
  */
 void _rcs_tx_disable_transmit(void *_tx) {
     _Tx *tx = _tx;
@@ -424,13 +424,13 @@ void _rcs_tx_disable_transmit(void *_tx) {
 
 
 /*
- * 
- * 
+ *
+ *
  */
 void _rcs_tx_transmit(_Tx *tx, int high_pulses, int low_pulses) {
     int pin = tx->pin;
     int pulse_length = tx->pulse_length;
-    
+
     if (pin != -1) {
         digitalWrite(pin, HIGH);
         delayMicroseconds(pulse_length * high_pulses);
@@ -442,14 +442,14 @@ void _rcs_tx_transmit(_Tx *tx, int high_pulses, int low_pulses) {
 
 /*
  * Sends a "0" Bit
- *                       _    
+ *                       _
  * Waveform Protocol 1: | |___
- *                       _  
+ *                       _
  * Waveform Protocol 2: | |__
  */
 void _rcs_tx_send0(void *_tx) {
     _Tx *tx = _tx;
-    
+
     if (tx->protocol == 1){
         _rcs_tx_transmit(tx, 1, 3);
     } else if(tx->protocol == 2) {
@@ -462,14 +462,14 @@ void _rcs_tx_send0(void *_tx) {
 
 /*
  * Sends a "1" Bit
- *                       ___  
+ *                       ___
  * Waveform Protocol 1: |   |_
- *                       __  
+ *                       __
  * Waveform Protocol 2: |  |_
  */
 void _rcs_tx_send1(void *_tx) {
     _Tx *tx = _tx;
-    
+
     if (tx->protocol == 1){
         _rcs_tx_transmit(tx, 3, 1);
     } else if (tx->protocol == 2) {
@@ -557,7 +557,7 @@ void _rcs_tx_sendTriState(void *_tx, char* sCodeWord) {
             }
         i++;
         }
-        _rcs_tx_sendSync(_tx);    
+        _rcs_tx_sendSync(_tx);
     }
 }
 
@@ -581,15 +581,15 @@ void _rcs_tx_sendTriState(void *_tx, char* sCodeWord) {
 char* _rcs_get_codewordB(_Params params, int bStatus) {
     int nAddressCode = params.n_address;
     int nChannelCode = params.n_channel;
-    
+
    int nReturnPos = 0;
    static char sReturn[13];
-   
+
    char* code[5] = { "FFFF", "0FFF", "F0FF", "FF0F", "FFF0" };
    if (nAddressCode < 1 || nAddressCode > 4 || nChannelCode < 1 || nChannelCode > 4) {
     return '\0';
    }
-   
+
    int i;
    for(i = 0; i < 4; i++) {
      sReturn[nReturnPos++] = code[nAddressCode][i];
@@ -598,19 +598,19 @@ char* _rcs_get_codewordB(_Params params, int bStatus) {
    for(i = 0; i < 4; i++) {
      sReturn[nReturnPos++] = code[nChannelCode][i];
    }
-   
+
    sReturn[nReturnPos++] = 'F';
    sReturn[nReturnPos++] = 'F';
    sReturn[nReturnPos++] = 'F';
-   
+
    if(bStatus) {
       sReturn[nReturnPos++] = 'F';
    } else {
       sReturn[nReturnPos++] = '0';
    }
-   
+
    sReturn[nReturnPos] = '\0';
-   
+
    return sReturn;
 }
 
@@ -624,11 +624,11 @@ char* _rcs_get_codewordB(_Params params, int bStatus) {
 char* _rcs_get_codewordA(_Params params, int bStatus) {
     char *sGroup = params.s_group;
     char *sDevice = params.s_device;
-    
+
     static char sDipSwitches[13];
     int i = 0;
     int j = 0;
-    
+
     for(i=0; i < 5; i++) {
         if(sGroup[i] == '0') {
             sDipSwitches[j++] = 'F';
@@ -666,30 +666,30 @@ char* _rcs_get_codewordC(_Params params, int bStatus) {
     int sFamily = params.c_family;
     int nGroup = params.n_group;
     int nDevice = params.n_device;
-    
+
     static char sReturn[13];
     int nReturnPos = 0;
-  
+
     if(sFamily < 97 || sFamily > 112 || nGroup < 1 || nGroup > 4 || nDevice < 1 || nDevice > 4) {
         return '\0';
     }
-  
+
     char* sDeviceGroupCode =  _rcs_dec2binWzerofill(  (nDevice-1) + (nGroup-1)*4, 4  );
-    
-    char familycode[16][5] = { 
-        "0000", "F000", "0F00", "FF00", "00F0", "F0F0", "0FF0", "FFF0", 
-        "000F", "F00F", "0F0F", "FF0F", "00FF", "F0FF", "0FFF", "FFFF" 
+
+    char familycode[16][5] = {
+        "0000", "F000", "0F00", "FF00", "00F0", "F0F0", "0FF0", "FFF0",
+        "000F", "F00F", "0F0F", "FF0F", "00FF", "F0FF", "0FFF", "FFFF"
     };
-    
+
     int i;
     for(i = 0; i < 4; i++) {
         sReturn[nReturnPos++] = familycode[ (int)sFamily - 97 ][i];
     }
-    
+
     for(i = 0; i < 4; i++) {
         sReturn[nReturnPos++] = (sDeviceGroupCode[3-i] == '1' ? 'F' : '0');
     }
-    
+
     sReturn[nReturnPos++] = '0';
     sReturn[nReturnPos++] = 'F';
     sReturn[nReturnPos++] = 'F';
@@ -698,7 +698,7 @@ char* _rcs_get_codewordC(_Params params, int bStatus) {
     } else {
         sReturn[nReturnPos++] = '0';
     }
-        
+
     sReturn[nReturnPos] = '\0';
     return sReturn;
 }
@@ -718,7 +718,7 @@ char* _rcs_get_codewordC(_Params params, int bStatus) {
  *
  * Source: http://www.the-intruder.net/funksteckdosen-von-rev-uber-arduino-ansteuern/
  *
- * @param sGroup        Name of the switch group (A..D, resp. a..d) 
+ * @param sGroup        Name of the switch group (A..D, resp. a..d)
  * @param nDevice       Number of the switch itself (1..3)
  * @param bStatus       Wether to switch on (true) or off (false)
  *
@@ -728,7 +728,7 @@ char* _rcs_get_codewordC(_Params params, int bStatus) {
 char* _rcs_get_codewordD(_Params params, int bStatus){
     char sGroup = params.c_group;
     int nDevice = params.n_device;
-    
+
     static char sReturn[13];
     int nReturnPos = 0;
 
@@ -751,7 +751,7 @@ char* _rcs_get_codewordD(_Params params, int bStatus){
         default:
             return '\0';
     }
-    
+
     int i;
     for(i = 0; i<4; i++) {
         sReturn[nReturnPos++] = sGroupCode[i];
@@ -770,23 +770,23 @@ char* _rcs_get_codewordD(_Params params, int bStatus){
         default:
             return '\0';
     }
-    
+
     for (i = 0; i < 3; i++) {
         sReturn[nReturnPos++] = sDevice[i];
     }
-    
+
     // fill up rest with zeros
     for (i = 0; i < 5; i++) {
         sReturn[nReturnPos++] = '0';
     }
-    
+
     // encode on or off
     if (bStatus) {
         sReturn[10] = '1';
     } else {
         sReturn[11] = '1';
     }
-    
+
     // last position terminate string
     sReturn[12] = '\0';
     return sReturn;
@@ -809,7 +809,7 @@ char *_rcs_dec2binWcharfill(unsigned long dec, unsigned int bit_length, char fil
     bin[32+i++] = ((dec & 1) > 0) ? '1' : fill;
     dec = dec >> 1;
   }
-  
+
   unsigned int j;
   for(j = 0; j < bit_length; j++) {
     if(j >= bit_length - i) {
@@ -819,6 +819,6 @@ char *_rcs_dec2binWcharfill(unsigned long dec, unsigned int bit_length, char fil
     }
   }
   bin[bit_length] = '\0';
-  
+
   return bin;
 }
