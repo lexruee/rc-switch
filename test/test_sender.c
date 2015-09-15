@@ -13,8 +13,8 @@ int main(int argc, char **argv) {
 
 	if(tx == NULL)
 		return 0;
-    
-    int i = 0;
+	
+	int i = 0;
 	while(i < 5) {
 		sleep(5);
 		printf("send frame\n");
