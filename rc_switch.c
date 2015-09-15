@@ -27,7 +27,7 @@
  */
 
 #include "rc_switch.h"
-#include "wiringPi.h"
+#include <wiringPi.h>
 #include <stdlib.h>
 #include <stdbool.h>
 
