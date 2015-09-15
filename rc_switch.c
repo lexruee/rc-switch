@@ -29,10 +29,8 @@
 #include "rc_switch.h"
 #include "wiringPi.h"
 #include <stdlib.h>
+#include <stdbool.h>
 
-
-#define FALSE 0
-#define TRUE 1
 
 
 /*
@@ -85,7 +83,7 @@ typedef struct {
  * Private variables.
  */
 
-static int RCS_WIRING_PI_INIT = FALSE;
+static int RCS_WIRING_PI_INIT = false;
 
 
 /*
@@ -126,9 +124,9 @@ void _rcs_init_wiring_pi();
 
 
 void _rcs_init_wiring_pi() {
-    if(RCS_WIRING_PI_INIT == FALSE) {
+    if(RCS_WIRING_PI_INIT == false) {
         wiringPiSetup();
-        RCS_WIRING_PI_INIT = TRUE;
+        RCS_WIRING_PI_INIT = true;
     }
 }
 
@@ -265,7 +263,7 @@ void rcs_enable_transmit(void *_s, int transmitter_pin) {
 void rcs_switch_on(void *_s) {
     _RCSwitch *s = _s;
     char *(*get_codeword)(_Params params, int status) = s->get_codeword;
-    _rcs_tx_sendTriState(s->tx, get_codeword(s->params, TRUE));
+    _rcs_tx_sendTriState(s->tx, get_codeword(s->params, true));
 }
 
 
@@ -278,7 +276,7 @@ void rcs_switch_on(void *_s) {
 void rcs_switch_off(void *_s) {
     _RCSwitch *s = _s;
     char *(*get_codeword)(_Params params, int status) = s->get_codeword;
-    _rcs_tx_sendTriState(s->tx, get_codeword(s->params, FALSE));
+    _rcs_tx_sendTriState(s->tx, get_codeword(s->params, false));
 }
 
 /*
