@@ -30,6 +30,7 @@
 #include <wiringPi.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
 
 
 
@@ -90,12 +91,6 @@ static int RCS_WIRING_PI_INIT = false;
  * Private function prototypes.
  */
 
-void *_rcs_tx_init(int pin);
-void _rcs_tx_destroy(void *_tx);
-void _rcs_tx_set_pulse_length(void *_tx, int pulse_length);
-void _rcs_tx_set_repeat_transmit(void *_tx, int repeat_transmit);
-void _rcs_tx_set_protocol(void *_tx, int protocol);
-void _rcs_tx_set_pin(void *_tx, int pin);
 void _rcs_tx_sendTriState(void *_tx, char* sCodeWord);
 void _rcs_tx_sendSync(void *_tx);
 void _rcs_tx_send0(void *_tx);
@@ -145,10 +140,10 @@ void _rcs_init_wiring_pi() {
  */
 void *rcs_init_a(char *s_group, char *s_device) {
     _RCSwitch *s = malloc(sizeof(_RCSwitch));
-    void *tx = _rcs_tx_init(-1);
-    _rcs_tx_set_pulse_length(tx, 350);
-    _rcs_tx_set_repeat_transmit(tx, 10);
-    _rcs_tx_set_protocol(tx, 1);
+    void *tx = rcs_tx_init(-1);
+    rcs_tx_set_pulse_length(tx, 350);
+    rcs_tx_set_repeat_transmit(tx, 10);
+    rcs_tx_set_protocol(tx, 1);
     s->tx = tx;
     s->type = 'A';
     s->get_codeword = &_rcs_get_codewordA;
@@ -167,10 +162,10 @@ void *rcs_init_a(char *s_group, char *s_device) {
  */
 void *rcs_init_b(int n_address, int n_channel) {
     _RCSwitch *s = malloc(sizeof(_RCSwitch));
-    void *tx = _rcs_tx_init(-1);
-    _rcs_tx_set_pulse_length(tx, 350);
-    _rcs_tx_set_repeat_transmit(tx, 10);
-    _rcs_tx_set_protocol(tx, 1);
+    void *tx = rcs_tx_init(-1);
+    rcs_tx_set_pulse_length(tx, 350);
+    rcs_tx_set_repeat_transmit(tx, 10);
+    rcs_tx_set_protocol(tx, 1);
     s->tx = tx;
     s->type = 'B';
     s->get_codeword = &_rcs_get_codewordB;
@@ -190,10 +185,10 @@ void *rcs_init_b(int n_address, int n_channel) {
  */
 void *rcs_init_c(char c_family, int n_group, int n_device) {
     _RCSwitch *s = malloc(sizeof(_RCSwitch));
-    void *tx = _rcs_tx_init(-1);
-    _rcs_tx_set_pulse_length(tx, 350);
-    _rcs_tx_set_repeat_transmit(tx, 10);
-    _rcs_tx_set_protocol(tx, 1);
+    void *tx = rcs_tx_init(-1);
+    rcs_tx_set_pulse_length(tx, 350);
+    rcs_tx_set_repeat_transmit(tx, 10);
+    rcs_tx_set_protocol(tx, 1);
     s->tx = tx;
     s->type = 'C';
     s->get_codeword = &_rcs_get_codewordC;
@@ -213,10 +208,10 @@ void *rcs_init_c(char c_family, int n_group, int n_device) {
  */
 void *rcs_init_d(char c_group, int n_device) {
     _RCSwitch *s = malloc(sizeof(_RCSwitch));
-    void *tx = _rcs_tx_init(-1);
-    _rcs_tx_set_pulse_length(tx, 350);
-    _rcs_tx_set_repeat_transmit(tx, 10);
-    _rcs_tx_set_protocol(tx, 1);
+    void *tx = rcs_tx_init(-1);
+    rcs_tx_set_pulse_length(tx, 350);
+    rcs_tx_set_repeat_transmit(tx, 10);
+    rcs_tx_set_protocol(tx, 1);
     s->tx = tx;
     s->type = 'D';
     s->get_codeword = &_rcs_get_codewordD;
@@ -234,7 +229,7 @@ void *rcs_init_d(char c_group, int n_device) {
  */
 void rcs_destroy(void *_s) {
     _RCSwitch *s = _s;
-    _rcs_tx_destroy(s->tx);
+    rcs_tx_destroy(s->tx);
     s->tx = NULL;
     free(s);
     s = NULL;
@@ -249,7 +244,7 @@ void rcs_destroy(void *_s) {
  */
 void rcs_enable_transmit(void *_s, int transmitter_pin) {
     _RCSwitch *s = _s;
-    _rcs_tx_set_pin(s->tx, transmitter_pin);
+    rcs_tx_set_pin(s->tx, transmitter_pin);
 
 }
 
@@ -290,7 +285,7 @@ void rcs_switch_off(void *_s) {
  */
 void rcs_set_pulse_length(void *_s, int pulse_length) {
     _RCSwitch *s = _s;
-    _rcs_tx_set_pulse_length(s->tx, pulse_length);
+    rcs_tx_set_pulse_length(s->tx, pulse_length);
 }
 
 
@@ -300,7 +295,7 @@ void rcs_set_pulse_length(void *_s, int pulse_length) {
  */
 void rcs_set_repeat_transmit(void *_s, int repeat_transmit) {
     _RCSwitch *s = _s;
-    _rcs_tx_set_repeat_transmit(s->tx, repeat_transmit);
+    rcs_tx_set_repeat_transmit(s->tx, repeat_transmit);
 }
 
 
@@ -310,7 +305,7 @@ void rcs_set_repeat_transmit(void *_s, int repeat_transmit) {
  */
 void rcs_set_protocol(void *_s, int protocol) {
     _RCSwitch *s = _s;
-    _rcs_tx_set_protocol(s->tx, protocol);
+    rcs_tx_set_protocol(s->tx, protocol);
 }
 
 
@@ -319,14 +314,11 @@ void rcs_set_protocol(void *_s, int protocol) {
  */
 
 
-//TODO
-
-
-/*
+/**
  *
  *
  */
-void *_rcs_tx_init(int pin) {
+void *rcs_tx_init(int pin) {
     _rcs_init_wiring_pi();
     _Tx *tx = malloc(sizeof(_Tx));
     if(tx != NULL) {
@@ -339,11 +331,70 @@ void *_rcs_tx_init(int pin) {
 }
 
 
-/*
+/**
  *
  *
  */
-void _rcs_tx_destroy(void *_tx) {
+void rcs_tx_send_bstring(void *_tx, char *binary_string) {
+	_Tx *tx = _tx;
+	size_t len = strlen(binary_string);
+	if(len == 0)
+		return;
+	
+	unsigned int i, j;
+	for(j = 0; j < tx->repeat_transmit; j++) {
+		for(i = 0; i < len; i++) {
+			if(binary_string[i] == '1') {
+				_rcs_tx_send1(tx);
+			} else if(binary_string[i] == '0') {
+				_rcs_tx_send0(tx);
+			}
+		}	
+		_rcs_tx_sendSync(tx);
+	}
+}
+
+
+/**
+ *
+ *
+ */
+void rcs_tx_send_bytes(void *_tx, char *data, int n_bytes) {
+	_Tx *tx = _tx;
+	if(n_bytes == 0)
+		return;
+		
+	unsigned int len = 8 * n_bytes;
+	char binary_string[len];
+	unsigned int i, j;
+	char mask;
+	
+	for(i = 0; i < n_bytes; i++) {
+		mask = 0x80;
+		for(j = 0; j < 8; j++) {
+			binary_string[i*8+j] = data[i] & mask;
+			mask >>= 1;
+		}
+	}
+	
+	for(j = 0; j < tx->repeat_transmit; j++) {
+		for(i = 0; i < len; i++) {
+			if(binary_string[i] == '1') {
+				_rcs_tx_send1(tx);
+			} else if(binary_string[i] == '0') {
+				_rcs_tx_send0(tx);
+			}
+		}	
+		_rcs_tx_sendSync(tx);
+	}
+}
+
+
+/**
+ *
+ *
+ */
+void rcs_tx_destroy(void *_tx) {
     free(_tx);
 }
 
@@ -358,7 +409,7 @@ void _rcs_tx_destroy(void *_tx) {
  *
  *
  */
-void _rcs_tx_set_pin(void *_tx, int pin) {
+void rcs_tx_set_pin(void *_tx, int pin) {
     _Tx *tx = _tx;
     tx->pin = pin;
 }
@@ -368,7 +419,7 @@ void _rcs_tx_set_pin(void *_tx, int pin) {
  *
  *
  */
-void _rcs_tx_set_pulse_length(void *_tx, int pulse_length) {
+void rcs_tx_set_pulse_length(void *_tx, int pulse_length) {
     _Tx *tx = _tx;
     tx->pulse_length = pulse_length;
 }
@@ -378,7 +429,7 @@ void _rcs_tx_set_pulse_length(void *_tx, int pulse_length) {
  *
  *
  */
-void _rcs_tx_set_repeat_transmit(void *_tx, int repeat_transmit) {
+void rcs_tx_set_repeat_transmit(void *_tx, int repeat_transmit) {
     _Tx *tx = _tx;
     tx->repeat_transmit = repeat_transmit;
 }
@@ -388,7 +439,7 @@ void _rcs_tx_set_repeat_transmit(void *_tx, int repeat_transmit) {
  *
  *
  */
-void _rcs_tx_set_protocol(void *_tx, int protocol) {
+void rcs_tx_set_protocol(void *_tx, int protocol) {
     _Tx *tx = _tx;
     tx->protocol = protocol;
 }

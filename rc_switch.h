@@ -51,5 +51,20 @@ void rcs_switch_on(void *_s);
 void rcs_switch_off(void *_s);
 
 
-
+/**
+ * RCSwitch deconstructor.
+ */
 void rcs_destroy(void *_s);
+
+
+/**
+ * RCSwitch transmitter.
+ */
+void *rcs_tx_init(int pin);
+void rcs_tx_destroy(void *_tx);
+void rcs_tx_set_pulse_length(void *_tx, int pulse_length);
+void rcs_tx_set_repeat_transmit(void *_tx, int repeat_transmit);
+void rcs_tx_set_protocol(void *_tx, int protocol);
+void rcs_tx_set_pin(void *_tx, int pin);
+void rcs_tx_send_bytes(void *_tx, char *data, int n_bytes);
+void rcs_tx_send_binary_string(void *_tx, char *binary_string);
